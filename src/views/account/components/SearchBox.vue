@@ -38,7 +38,7 @@ export default {
   name: "SearchBox",
   data(){
     return{
-      userNameData:this.userName
+      userNameData:this.userName,
     }
   },
   props:{

@@ -3,8 +3,8 @@
   <div v-if="isChild" v-loading="isLoading">
     <!--搜索-->
     <SearchBox @search="searchList"
-               @reaset="resetList"
-               v-model="searchForm.userName"/>
+               :user-name="searchForm.userName"
+    />
     <!--按钮-->
     <!--
     <div class="table-btns">
@@ -107,8 +107,10 @@ export default {
      */
     searchList(param){
       this.isLoading=true;
-      searchAccounts(param).then(response =>{
+      let _param=this.buildParam(param);
+      searchAccounts(_param).then(response =>{
         console.log(response);
+        this.searchForm.page=response.data.page;
         this.tableData=response.data.list;
         this.isLoading=false;
       })
@@ -117,9 +119,13 @@ export default {
      * 重置搜索条件
      */
     resetList(){
-      this.limit=10;
-      this.page=1;
+      this.searchForm.limit=10;
+      this.searchForm.page=1;
       this.searchList();
+    },
+    buildParam(param){
+      param.limit=this.searchForm.limit;
+      param.page=this.searchForm.page;
     }
   }
 }
