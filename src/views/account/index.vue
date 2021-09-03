@@ -105,9 +105,8 @@ export default {
     /**
      * 搜索列表数据
      */
-    searchList(){
+    searchList(param){
       this.isLoading=true;
-      let param=this.buildApiParam(this.searchForm);
       searchAccounts(param).then(response =>{
         console.log(response);
         this.tableData=response.data.list;

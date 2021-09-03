@@ -7,8 +7,8 @@
             <el-form-item
               label="用户名"
               size="small">
-              <el-input v-model="username"
-                        placeholder="请输入用户名"
+              <el-input v-model="this.userNameData"
+                        :placeholder="this.placeholder"
                         size="small"
                         maxlength="30"/>
             </el-form-item>
@@ -36,20 +36,22 @@
 
 export default {
   name: "SearchBox",
-  props:{
-
-  },
-  computed:{
-    //用户名
-    username:{
-      get(){
-        return this.username
-      },
-      set(val){
-        this.$emit("update:username",val)
-      }
+  data(){
+    return{
+      userNameData:this.userName
     }
   },
+  props:{
+    userName:{
+      type:String,
+      default:''
+    },
+    placeholder:{
+      type:String,
+      default:'请输入用户名'
+    }
+  },
+  emits: ['search'],
   methods:{
     /**
      * 点击搜索按钮
@@ -61,7 +63,7 @@ export default {
      * 点击重置按钮
      */
     handleReset(){
-        this.username='';
+        this.userNameData='';
         this.handleSearch();
     },
     /**
@@ -70,7 +72,7 @@ export default {
      */
     buildParam(){
       let searchForm={
-        username:this.username
+        userName:this.userNameData
       }
       return searchForm;
     }
