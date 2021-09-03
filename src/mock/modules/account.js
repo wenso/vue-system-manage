@@ -18,9 +18,9 @@ const accountApi=[
                 return {
                     code:200,
                     data:{
-                        total:userList.length,
-                        limit:10,
-                        page:1,
+                        total:data.length,
+                        limit:param.limit,
+                        page:param.page,
                         list:userList
                     },
                     desc:'success'
@@ -46,13 +46,20 @@ function filterData(param){
     let endIndex=startIndex+param.limit;
     for(let i=0;i<data.length;i++){
         let obj=data[i];
-        //判断性别为男性，年龄大于10
-        if(obj.sex===param.sex&&obj.age>param.age){
+        if(param.account){
+            //如果参数没有条件限制
+            if(obj.account.indexOf(param.account)!=-1){
+                //如果用户名中包含指定的字符
+                arr.push(obj);
+            }
+        }else{
+            //如果没有条件限制
             arr.push(obj);
         }
     }
     for(let n=0;n<arr.length;n++){
         if(n>=startIndex&&n<=endIndex){
+            //如果在起始和截至索引之间
             arrPage.push(arr[n]);
         }
     }
@@ -67,7 +74,7 @@ const data=[{
         createTime:'1628170430',
         phone:'135****0240',
         roles:[2],
-        userName:"wenso",
+        account:"wenso",
         realName:"祝融",
         id:'22D34G564H3F'
     },{
@@ -77,7 +84,7 @@ const data=[{
         createTime:'1628170430',
         phone:'135****0240',
         roles:[1],
-        userName:'admin',
+        account:'admin',
         realName:"黄帝",
         id:'12D34G564H3F'
     },{
@@ -87,7 +94,7 @@ const data=[{
         createTime:'1628170430',
         phone:'135****0240',
         roles:[2,3],
-        userName:"kity",
+        account:"kity",
         realName:"雅典娜",
         id:'32D34G564H3F'
     }

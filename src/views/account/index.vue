@@ -3,7 +3,8 @@
   <div v-if="isChild" v-loading="isLoading">
     <!--搜索-->
     <SearchBox @search="searchList"
-               :user-name="searchForm.userName"
+               @reset="resetList"
+               :user-name="this.searchForm.account"
     />
     <!--按钮-->
     <!--
@@ -19,7 +20,7 @@
     <el-table :data="tableData">
       <el-table-column
           label="账号"
-          prop="userName">
+          prop="account">
 
       </el-table-column>
       <el-table-column
@@ -86,7 +87,7 @@ export default {
       //搜索框参数集
       searchForm:{
         //用户名
-        userName:'',
+        account:'',
         //电话号码
         phone:'',
         //开始时间
@@ -105,11 +106,12 @@ export default {
     /**
      * 搜索列表数据
      */
-    searchList(param){
+    searchList(data){
       this.isLoading=true;
-      let _param=this.buildParam(param);
-      searchAccounts(_param).then(response =>{
-        console.log(response);
+      //转义为符合接口协议的参数名
+      let param=this.buildParam(data);
+      //执行访问服务端搜索数据列表接口
+      searchAccounts(param).then(response =>{
         this.searchForm.page=response.data.page;
         this.tableData=response.data.list;
         this.isLoading=false;
@@ -123,9 +125,17 @@ export default {
       this.searchForm.page=1;
       this.searchList();
     },
-    buildParam(param){
+    /**
+     * 构造参数
+     * @param data
+     * @returns {*}
+     */
+    buildParam(data){
+      //如果data为空，也合并生成一个空的对象
+      let param=data?data:{};
       param.limit=this.searchForm.limit;
       param.page=this.searchForm.page;
+      return param;
     }
   }
 }
