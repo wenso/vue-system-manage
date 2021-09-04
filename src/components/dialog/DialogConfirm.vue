@@ -12,8 +12,8 @@
         </slot>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button class="dialog-btn" @click="handleClose" size="small">取消</el-button>
-        <el-button class="dialog-btn" size="small" @click="handleConfirm" style="background: #333333; color: #e5e5e5;">确认</el-button>
+        <el-button class="dialog-btn" @click="handleClose" >取消</el-button>
+        <el-button class="dialog-btn" @click="handleConfirm" style="background: #333333; color: #e5e5e5;">确认</el-button>
       </div>
     </el-dialog>
   </div>

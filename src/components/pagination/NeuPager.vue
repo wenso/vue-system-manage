@@ -1,8 +1,8 @@
 <template>
   <div :class="{'hidden':hidden}" class="pagination-container">
     <el-pagination
-      :current-page.sync="currentPage"
-      :page-size.sync="pageSize"
+      :current-page.sync="this.page"
+      :page-size="this.limit"
       :layout="layout"
       :page-sizes="pageSizes"
       :total="total"
@@ -14,20 +14,26 @@
 
 <script>
 export default {
-  name: "Pager",
+  name: "NeuPager",
+  data(){
+    return{
+      page:this.currentPage,
+      limit:this.pageSize
+    }
+  },
   props:{
     //总数
     total:{
-      required:true,
-      type:Number
+      type:Number,
+      default:0
     },
     //当前页码
-    page:{
+    currentPage:{
       type:Number,
       default:1
     },
     //每页条数
-    limit:{
+    pageSize:{
       type:Number,
       default:20
     },
@@ -49,40 +55,24 @@ export default {
       default:false
     }
   },
-  computed:{
-    //当前页码
-    currentPage:{
-      get(){
-        return this.page
-      },
-      set(val){
-        this.$emit('update:page',val)
-      }
-    },
-    //当前每页数据条数
-    pageSize:{
-      get(){
-        return this.limit
-      },
-      set(val){
-        this.$emit('update:limit',val)
-      }
-    }
-  },
+  emits:["size-change","current-change"],
   methods:{
     /**
      * 每页数据条数变化
      * @param val
      */
     handleSizeChange(val){
-      this.$emit('pagination',{page:this.currentPage,limit:val})
+      this.page=1;
+      this.limit=val;
+      this.$emit('size-change',{limit:val,page:this.page})
     },
     /**
      * 当前页码变化
      * @param val
      */
     handleCurrentChange(val){
-      this.$emit('pagination',{page:val,limit:this.pageSize})
+      this.page=val;
+      this.$emit('current-change',{page:val,limit:this.pageSize})
     }
   }
 }

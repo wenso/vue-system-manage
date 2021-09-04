@@ -5,8 +5,7 @@
         <el-row :gutter="8" class="search-box-row" type="flex">
           <el-col :span="6">
             <el-form-item
-              label="用户名"
-              size="small">
+              label="用户名">
               <el-input v-model="this.accountData"
                         :placeholder="this.placeholder"
                         size="small"
@@ -16,13 +15,11 @@
           <el-col :span="6">
             <el-button @click="handleSearch"
                        class="search-btn"
-                       size="small"
                        icon="el-icon-search">
               搜索
             </el-button>
             <el-button @click="handleReset"
                        class="reset-btn"
-                       size="small"
                        icon="el-icon-brush">
               重置
             </el-button>

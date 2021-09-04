@@ -14,15 +14,10 @@ const accountApi=[
                     desc:'用户令牌已失效，请重新进行登录'
                 }
             }else{
-                let userList=filterData(param);
+                let userData=filterData(param);
                 return {
                     code:200,
-                    data:{
-                        total:data.length,
-                        limit:param.limit,
-                        page:param.page,
-                        list:userList
-                    },
+                    data:userData,
                     desc:'success'
                 }
             }
@@ -37,9 +32,9 @@ const accountApi=[
  */
 function filterData(param){
     //符合条件的数据
-    let arr=[];
-    //分页数据
-    let arrPage=[];
+    let tableData= [];
+
+
     //起始索引
     let startIndex=param.limit*(param.page-1);
     //结束索引
@@ -50,20 +45,27 @@ function filterData(param){
             //如果参数没有条件限制
             if(obj.account.indexOf(param.account)!=-1){
                 //如果用户名中包含指定的字符
-                arr.push(obj);
+                tableData.push(obj);
             }
         }else{
             //如果没有条件限制
-            arr.push(obj);
+            tableData.push(obj);
         }
     }
-    for(let n=0;n<arr.length;n++){
-        if(n>=startIndex&&n<=endIndex){
+    //分页数据及分页信息
+    let pageData= {
+        total:tableData.length,
+        limit:param.limit,
+        page:param.page,
+        list:[]
+    };
+    for(let n=0;n<tableData.length;n++){
+        if(n>=startIndex&&n<endIndex){
             //如果在起始和截至索引之间
-            arrPage.push(arr[n]);
+            pageData.list.push(tableData[n]);
         }
     }
-    return arrPage;
+    return pageData;
 }
 
 //数据

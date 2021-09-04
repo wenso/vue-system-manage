@@ -104,3 +104,9 @@ img{border:0}
 .menu a:visited{ color: #007ca2;}
 .menu a:hover,
 .menu a:active{ color: #000;}
+
+.table_controller{ width: 240px;}
+.data_table{ width:100%; height: 400px;}
+.data_table td,
+.data_table th{ }
+.pagination{ margin: 10px 0;}

@@ -19,5 +19,5 @@ const app=createApp(App);
 // 全局变量 挂载
 //app.config.globalProperties.xxx = xxx;
 app.use(router);
-app.use(ElementPlus)
+app.use(ElementPlus,{ size: 'small', zIndex: 3000 })
 app.mount('#app')

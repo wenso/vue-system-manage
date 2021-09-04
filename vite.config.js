@@ -30,7 +30,8 @@ export default ({command,mode}) => defineConfig({
       { find: "@router", replacement: path.resolve(__dirname, 'src/router')},
       { find: "@utils", replacement: path.resolve(__dirname, 'src/utils')},
       { find: "@comps", replacement: path.resolve(__dirname, 'src/components')},
-      { find: "@apis", replacement: path.resolve(__dirname, 'src/apis')}
+      { find: "@apis", replacement: path.resolve(__dirname, 'src/apis')},
+      { find: "@cfg", replacement: path.resolve(__dirname, 'src/config')}
     ],
     extensions: ['.vue', '.js', '.json','.mjs']
   },

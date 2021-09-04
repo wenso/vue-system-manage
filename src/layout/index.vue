@@ -1,7 +1,7 @@
 <template>
   <el-container class="app-container">
-      <!--公共侧栏-->
-      <Aside />
+    <!--公共侧栏-->
+    <Aside />
     <el-container class="main-container">
         <!--公共头部-->
         <!--<Header />-->
@@ -21,6 +21,6 @@ export default {
 }
 </script>
 <style scoped>
-.app-container{}
-.main-container{}
+.app-container{ min-width: 1200px;}
+.main-container{ height: 100%;}
 </style>
