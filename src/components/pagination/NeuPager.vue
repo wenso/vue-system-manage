@@ -35,7 +35,7 @@ export default {
     //每页条数
     pageSize:{
       type:Number,
-      default:20
+      default:2
     },
     //组件布局 total, sizes, prev, pager, next, jumper
     layout:{
@@ -46,7 +46,7 @@ export default {
     pageSizes:{
       type:Array,
       default(){
-        return [10,20,50]
+        return [2,10,50]
       }
     },
     //是否显示分页

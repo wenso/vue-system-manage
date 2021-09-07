@@ -24,6 +24,6 @@ export default {
 </script>
 
 <style scoped>
-.main{ display: block; width: 100%; height: 400px; margin-top: 60px;}
+.main{ }
 
 </style>

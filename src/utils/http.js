@@ -55,16 +55,16 @@ http.interceptors.response.use(
             Cache.rmLS("token")
             route.push("/login");
         }
-        let error=response.data.desc;
-        ElMessage.error(error);
-        return Promise.reject(error);
+        let desc=response.data.desc;
+        ElMessage.error(desc);
+        return Promise.reject(desc);
       }
   },
   error=>{
       const {response}=error;
       if(response){
           console.log(response.data);
-          ELMessage.error(response.data.desc);
+          ElMessage.error(response.data?response.data.desc:response.statusText);
       }else{
           if(!window.navigator.onLine){
             //断网情况下处理逻辑

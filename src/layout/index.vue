@@ -21,6 +21,6 @@ export default {
 }
 </script>
 <style scoped>
-.app-container{ min-width: 1200px;}
-.main-container{ height: 100%;}
+.app-container{ min-width: 1200px; height: 800px;}
+.main-container{}
 </style>

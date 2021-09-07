@@ -1,4 +1,5 @@
 import {tokens,users} from "../token"
+import error from "../error";
 const accountApi=[
     //搜索账号信息
     {
@@ -9,21 +10,79 @@ const accountApi=[
             const param=config.body;
             const info=users[authorization];
             if(!info){
-                return {
-                    code:508,
-                    desc:'用户令牌已失效，请重新进行登录'
-                }
+                return error.noAuth
             }else{
                 let userData=filterData(param);
-                return {
-                    code:200,
-                    data:userData,
-                    desc:'success'
-                }
+                return Object.assign(error.success,{data:userData});
+            }
+        }
+    },{
+        url:'api/account/add',
+        type:'post',
+        response:config=>{
+            const {authorization}=config.headers;
+            const param=config.body;
+            const info=users[authorization];
+            if(!info){
+                return error.noAuth;
+            }else{
+                return error.success;
+            }
+        }
+    },{
+        url:'api/account/edit',
+        type:'post',
+        response:config=>{
+            const {authorization}=config.headers;
+            const param=config.body;
+            const info=users[authorization];
+            if(!info){
+                return error.noAuth;
+            }else{
+                return error.success;
+            }
+        }
+    },{
+        url:'api/account/delete',
+        type:'get',
+        response:config=>{
+            const {authorization}=config.headers;
+            const param=config.query;
+            const info=users[authorization];
+            if(!info){
+                return error.noAuth;
+            }else{
+                return error.success;
+            }
+        }
+    },{
+        url:'api/account/detail',
+        type:'get',
+        response:config=>{
+            const {authorization}=config.headers;
+            const id=config.query.id;
+            const info=users[authorization];
+            if(!info){
+                return error.noAuth;
+            }else{
+                let user=getInfo(id)
+                return Object.assign(error.success,{data:user});
             }
         }
     }
 ]
+
+
+function getInfo(id){
+    let obj={};
+    for(let i=0;i<data.length;i++){
+        obj=data[i];
+        if(data[i].id===id){
+            break;
+        }
+    }
+    return obj;
+}
 
 /**
  * 过滤数据
@@ -33,8 +92,6 @@ const accountApi=[
 function filterData(param){
     //符合条件的数据
     let tableData= [];
-
-
     //起始索引
     let startIndex=param.limit*(param.page-1);
     //结束索引
@@ -68,12 +125,14 @@ function filterData(param){
     return pageData;
 }
 
-//数据
+
+
+//账号列表数据
 const data=[{
         age:18,
         sex:1,
         status:'active',
-        createTime:'1628170430',
+        createTime:'2021-02-22 10:12:33',
         phone:'135****0240',
         roles:[2],
         account:"wenso",
@@ -83,22 +142,22 @@ const data=[{
         age:19,
         sex:1,
         status:'active',
-        createTime:'1628170430',
+        createTime:'2021-02-26 10:12:33',
         phone:'135****0240',
         roles:[1],
         account:'admin',
         realName:"黄帝",
-        id:'12D34G564H3F'
+        id:'12D34G564H4F'
     },{
         age:28,
         sex:0,
         status:'lock',
-        createTime:'1628170430',
+        createTime:'2021-02-28 21:12:34',
         phone:'135****0240',
         roles:[2,3],
         account:"kity",
         realName:"雅典娜",
-        id:'32D34G564H3F'
+        id:'32D34G564H5F'
     }
 ]
 export default accountApi;

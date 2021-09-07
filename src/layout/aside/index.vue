@@ -48,6 +48,6 @@ export default {
 
 <style scoped>
 .logo{ height:60px; background: #333333;}
-.aside{ width:220px; height:100%; background:#a7c0d3;}
+.aside{ width:220px; background:#a7c0d3;}
 
 </style>
