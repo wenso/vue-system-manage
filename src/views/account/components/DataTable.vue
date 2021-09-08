@@ -6,25 +6,26 @@
 
     </el-table-column>
     <el-table-column
-        label="手机">
+        label="手机"
+        prop="phone">
+    </el-table-column>
+    <el-table-column
+        label="性别">
       <template #default="scope">
-        {{scope.row.phone}}
+        {{formatterSex(scope.row.sex)}}
       </template>
     </el-table-column>
     <el-table-column
-        label="性别"
-        prop="sex"
-        :formatter="formatterSex">
+        label="角色">
+      <template #default="scope">
+        {{formatterRoleName(scope.row.roles)}}
+      </template>
     </el-table-column>
     <el-table-column
-        label="角色"
-        prop="roles"
-        :formatter="formatterRoleName">
-    </el-table-column>
-    <el-table-column
-        label="状态"
-        prop="status"
-        :formatter="formatterStatus">
+        label="状态">
+      <template #default="scope">
+        {{formatterStatus(scope.row.status)}}
+      </template>
     </el-table-column>
     <el-table-column
         label="创建时间"
@@ -64,16 +65,18 @@ import {getRoleName,getSex,getAccountStatus} from "../../../utils/dict";
 export default {
   name: "DataTable",
   data(){
-    return {
-      //表格数据
-      tableData:this.list
-    }
+    return {}
   },
   props:{
     //表格绑定的数据
     list:{
       type:Array,
       default: () => []
+    }
+  },
+  computed:{
+    tableData(){
+      return this.list
     }
   },
   emits: ['refresh',"edit","info"],
@@ -90,24 +93,6 @@ export default {
         this.$emit("refresh");
         this.isLoading=false;
       })
-    },
-    /**
-     * 格式化状态
-     */
-    formatterStatus(row,column){
-      return getAccountStatus(row[column.property])
-    },
-    /**
-     * 格式化权限
-     */
-    formatterRoleName(row,column){
-      return getRoleName(row[column.property])
-    },
-    /**
-     * 格式化性别
-     */
-    formatterSex(row,column){
-      return getSex(row[column.property])
     },
     /**
      * 查看指定数据
@@ -130,8 +115,25 @@ export default {
         this.$emit("edit",response.data);
         this.isLoading=false;
       })
+    },
+    /**
+     * 格式化状态 当使用prop赋值时，入参为(row，column),使用row[column.property]取值
+     */
+    formatterStatus(val){
+      return getAccountStatus(val)
+    },
+    /**
+     * 格式化权限
+     */
+    formatterRoleName(val){
+      return getRoleName(val)
+    },
+    /**
+     * 格式化性别
+     */
+    formatterSex(val){
+      return getSex(val)
     }
-
   }
 }
 </script>
