@@ -6,17 +6,21 @@
           label="用户名">
           <el-input v-model="this.conditionData.account"
                     placeholder="账号"
-                    maxlength="16"/>
+                    maxlength="16"
+                    class="search-input"
+                    clearable/>
         </el-form-item>
         <el-form-item
             label="手机">
           <el-input v-model="this.conditionData.phone"
                     placeholder="手机号码"
-                    maxlength="11"/>
+                    maxlength="11"
+                    class="search-input"
+                    clearable/>
         </el-form-item>
         <el-form-item
             label="状态">
-          <el-select v-model="this.conditionData.status" clearable placeholder="请选择">
+          <el-select v-model="this.conditionData.status" clearable placeholder="请选择" class="search-select">
             <el-option
                 v-for="item in status"
                 :key="item.value"
@@ -120,4 +124,6 @@ export default {
   .search-btns{ float: right; display: inline; }
   .search-btn{ }
   .reset-btn{}
+  .search-input{ width: 140px; }
+  .search-select{ width: 120px;}
 </style>

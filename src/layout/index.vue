@@ -35,6 +35,6 @@ export default {
 </script>
 <style scoped>
 .el-header{padding:0;}
-.app-container{ min-width: 1200px; height: 800px;}
-.main-container{}
+.app-container{ }
+.main-container{ min-width: 1280px; }
 </style>
