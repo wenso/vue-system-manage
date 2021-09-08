@@ -21,7 +21,6 @@ const routers={
             component:()=>import('@/vies/menu/index.vue'),
             structure:'console'
         }
-
     },
     //按钮
     button:{
