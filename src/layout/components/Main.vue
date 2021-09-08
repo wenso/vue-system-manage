@@ -1,12 +1,12 @@
 <template>
   <!--内容区-->
-  <el-main class="main">
+  <div class="main">
     <router-view v-slot="{ Component }">
       <keep-alive>
         <component :is="Component" />
       </keep-alive>
     </router-view>
-  </el-main>
+  </div>
 </template>
 
 <script>

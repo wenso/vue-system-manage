@@ -118,4 +118,6 @@ export default {
 <style scoped>
   .search-form{ float: left; display: inline;}
   .search-btns{ float: right; display: inline; }
+  .search-btn{ }
+  .reset-btn{}
 </style>

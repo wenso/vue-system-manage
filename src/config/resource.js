@@ -6,19 +6,19 @@ const routers={
     //菜单
     menu:{
         '/dashboard':{
-            component:()=>import('@/vies/dashboard/index.vue'),
+            component:()=>import('@/vies/dashboard/Aside.vue'),
             structure:'console'
         },
         '/system/role-manage':{
-            component:()=>import('@/vies/role/index.vue'),
+            component:()=>import('@/vies/role/Aside.vue'),
             structure:'console'
         },
         '/system/account-manage':{
-            component:()=>import('@/vies/account/index.vue'),
+            component:()=>import('@/vies/account/Aside.vue'),
             structure:'console'
         },
         '/system/menu-manage':{
-            component:()=>import('@/vies/menu/index.vue'),
+            component:()=>import('@/vies/menu/Aside.vue'),
             structure:'console'
         }
 

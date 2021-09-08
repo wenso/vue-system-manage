@@ -1,12 +1,12 @@
 <template>
-  <el-header class="header">
+  <div class="header">
     <!--顶部用户信息-->
     <div class="user-box right">
       <div class="welcome">
           欢迎您，用户
       </div>
     </div>
-  </el-header>
+  </div>
 </template>
 <script>
 export default {
@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style scoped>
-.header{ height: 60px; display: block; width: 100%;  color:#000; background: antiquewhite;}
+.header{ height: 60px; padding: 10px; color:#000; background: antiquewhite;}
 .header a:link,
 .header a:visited{ color:#000;}
 
