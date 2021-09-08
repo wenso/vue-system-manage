@@ -37,6 +37,7 @@
               range-separator="-"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
+              @change="datePickerChange"
               >
           </el-date-picker>
         </el-form-item>
@@ -65,14 +66,14 @@ export default {
       conditionData:this.condition,
       //状态数据
       status:[{
-          value: '1',
-          label: 'active'
+          value: 'active',
+          label: '启用'
         }, {
-          value: '2',
-          label: 'lock'
+          value: 'lock',
+          label: '锁定'
         }, {
-          value: '3',
-          label: 'disable'
+          value: 'disable',
+          label: '停用'
       }]
     }
   },
@@ -113,7 +114,13 @@ export default {
         //创建时间
         createTime:[]
       }
+    },
+    datePickerChange(val){
+      if(val===null){
+        this.condition.createTime=[]
+      }
     }
+
   }
 
 }

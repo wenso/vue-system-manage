@@ -18,3 +18,20 @@ export const toDateTime=(str)=>{
     }
     return null;
 }
+/**
+ * 获取数组中元素对象，防止越界异常
+ * @param arr 数组
+ * @param index 索引
+ * @returns {null|*}
+ */
+export const getArrObj=(arr,index)=>{
+    if(arr) {
+        if (arr.length > index) {
+            return arr[index]
+        }else{
+            //越界返回null
+            return null;
+        }
+    }
+    return null;
+}

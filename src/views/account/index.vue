@@ -38,6 +38,7 @@ import TableBox from "@comps/templates/TableBox.vue";
 import SearchBox from "./components/SearchBox.vue";
 import {toDateTime} from "@/utils/obj";
 import DataTable from "./components/DataTable";
+import {getArrObj} from "../../utils/obj";
 
 export default {
   name: "AccountManage",
@@ -151,8 +152,8 @@ export default {
     buildParam(data){
       //也合并生成一个新的对象
       let param={};
-      param.startTime=toDateTime(this.condition.createTime[0]);
-      param.endTime=toDateTime(this.condition.createTime[1]);
+      param.startTime=toDateTime(getArrObj(this.condition.createTime,0));
+      param.endTime=toDateTime(getArrObj(this.condition.createTime,1));
       param.account=this.condition.account;
       param.phone=this.condition.phone;
       param.status=this.condition.status;

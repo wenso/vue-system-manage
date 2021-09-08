@@ -1,5 +1,6 @@
 import {tokens,users} from "../token"
 import error from "../error";
+import {isEmpty, isInclude, isRangeTime, isSelected} from "../utils";
 const accountApi=[
     //搜索账号信息
     {
@@ -72,7 +73,11 @@ const accountApi=[
     }
 ]
 
-
+/**
+ * 获取对应id的数据
+ * @param id
+ * @returns {{}}
+ */
 function getInfo(id){
     let obj={};
     for(let i=0;i<data.length;i++){
@@ -83,6 +88,7 @@ function getInfo(id){
     }
     return obj;
 }
+
 
 /**
  * 过滤数据
@@ -98,14 +104,12 @@ function filterData(param){
     let endIndex=startIndex+param.limit;
     for(let i=0;i<data.length;i++){
         let obj=data[i];
-        if(param.account){
-            //如果参数没有条件限制
-            if(obj.account.indexOf(param.account)!=-1){
-                //如果用户名中包含指定的字符
-                tableData.push(obj);
-            }
-        }else{
-            //如果没有条件限制
+        if(isInclude(obj.account,param.account)&&
+            isInclude(obj.phone,param.phone)&&
+            isSelected(obj.status,param.status)&&
+            isRangeTime(obj.createTime,param.startTime,param.endTime))
+        {
+            //如果符合所有条件
             tableData.push(obj);
         }
     }
@@ -132,7 +136,7 @@ const data=[{
         age:18,
         sex:1,
         status:'active',
-        createTime:'2021-02-22 10:12:33',
+        createTime:'2021-09-22 10:12:33',
         phone:'135****0240',
         roles:[2],
         account:"wenso",
@@ -142,7 +146,7 @@ const data=[{
         age:19,
         sex:1,
         status:'active',
-        createTime:'2021-02-26 10:12:33',
+        createTime:'2021-09-26 10:12:33',
         phone:'135****0240',
         roles:[1],
         account:'admin',
@@ -152,7 +156,7 @@ const data=[{
         age:28,
         sex:0,
         status:'lock',
-        createTime:'2021-02-28 21:12:34',
+        createTime:'2021-09-28 21:12:34',
         phone:'135****0240',
         roles:[2,3],
         account:"kity",
