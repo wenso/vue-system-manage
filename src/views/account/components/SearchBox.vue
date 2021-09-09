@@ -37,7 +37,6 @@
               range-separator="-"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-              @change="datePickerChange"
               >
           </el-date-picker>
         </el-form-item>
@@ -114,13 +113,7 @@ export default {
         //创建时间
         createTime:[]
       }
-    },
-    datePickerChange(val){
-      if(val===null){
-        this.condition.createTime=[]
-      }
     }
-
   }
 
 }

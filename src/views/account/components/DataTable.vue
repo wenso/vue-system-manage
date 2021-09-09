@@ -24,7 +24,7 @@
     <el-table-column
         label="状态">
       <template #default="scope">
-        {{formatterStatus(scope.row.status)}}
+        <span v-html="formatterStatus(scope.row.status)"></span>
       </template>
     </el-table-column>
     <el-table-column
@@ -120,7 +120,21 @@ export default {
      * 格式化状态 当使用prop赋值时，入参为(row，column),使用row[column.property]取值
      */
     formatterStatus(val){
-      return getAccountStatus(val)
+      let tag="";
+      switch(val){
+        case "active":
+          tag='<span class="tag fc-green">'+getAccountStatus(val)+'</span>'
+          break;
+        case "lock":
+          tag='<span class="tag fc-red">'+getAccountStatus(val)+'</span>'
+          break;
+        case "disable":
+          tag='<span class="tag fc-gray">'+getAccountStatus(val)+'</span>'
+          break;
+        default:
+          break;
+      }
+      return tag
     },
     /**
      * 格式化权限

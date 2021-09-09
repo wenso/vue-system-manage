@@ -17,7 +17,9 @@ const accountApi=[
                 return Object.assign(error.success,{data:userData});
             }
         }
-    },{
+    },
+    //添加账号信息
+    {
         url:'api/account/add',
         type:'post',
         response:config=>{
@@ -30,7 +32,9 @@ const accountApi=[
                 return error.success;
             }
         }
-    },{
+    },
+    //编辑指定账号
+    {
         url:'api/account/edit',
         type:'post',
         response:config=>{
@@ -43,7 +47,9 @@ const accountApi=[
                 return error.success;
             }
         }
-    },{
+    },
+    //删除指定账号
+    {
         url:'api/account/delete',
         type:'get',
         response:config=>{
@@ -56,7 +62,9 @@ const accountApi=[
                 return error.success;
             }
         }
-    },{
+    },
+    //查看账号详情
+    {
         url:'api/account/detail',
         type:'get',
         response:config=>{
@@ -104,6 +112,7 @@ function filterData(param){
     let endIndex=startIndex+param.limit;
     for(let i=0;i<data.length;i++){
         let obj=data[i];
+        //判断是否符合检索条件
         if(isInclude(obj.account,param.account)&&
             isInclude(obj.phone,param.phone)&&
             isSelected(obj.status,param.status)&&
@@ -119,7 +128,8 @@ function filterData(param){
         limit:param.limit,
         page:param.page,
         list:[]
-    };
+    }
+    //过滤掉索引范围之外的数据
     for(let n=0;n<tableData.length;n++){
         if(n>=startIndex&&n<endIndex){
             //如果在起始和截至索引之间
@@ -131,7 +141,7 @@ function filterData(param){
 
 
 
-//账号列表数据
+//账号列表示例数据
 const data=[{
         age:18,
         sex:1,

@@ -109,3 +109,23 @@ img{border:0}
 .data_table td,
 .data_table th{ }
 .pagination{ margin: 10px 0;}
+.tag{ }
+/*标准颜色*/
+/*字体颜色*/
+.fc-green{ color: #67c23a}
+.fc-blue{ color:#409eff}
+.fc-red{ color:#f56c6c}
+.fc-gray{ color:#909399}
+.fc-yellow{ color:#e6a23c}
+/*背景颜色*/
+.bc-green{}
+.bc-blue{}
+.bc-gray{}
+.bc-yellow{}
+.bc-red{}
+/*边框颜色*/
+.rc-green{}
+.rc-blue{}
+.rc-gray{}
+.rc-yellow{}
+.rc-red{}
