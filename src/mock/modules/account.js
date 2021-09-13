@@ -14,14 +14,14 @@ const accountApi=[
                 return error.noAuth
             }else{
                 let userData=filterData(param);
-                return Object.assign(error.success,{data:userData});
+                return Object.assign({},error.success,{data:userData});
             }
         }
     },
     //添加账号信息
     {
         url:'api/account/add',
-        type:'post',
+        method:'post',
         response:config=>{
             const {authorization}=config.headers;
             const param=config.body;
@@ -36,7 +36,7 @@ const accountApi=[
     //编辑指定账号
     {
         url:'api/account/edit',
-        type:'post',
+        method:'post',
         response:config=>{
             const {authorization}=config.headers;
             const param=config.body;
@@ -51,7 +51,7 @@ const accountApi=[
     //删除指定账号
     {
         url:'api/account/delete',
-        type:'get',
+        method:'get',
         response:config=>{
             const {authorization}=config.headers;
             const param=config.query;
@@ -66,7 +66,7 @@ const accountApi=[
     //查看账号详情
     {
         url:'api/account/detail',
-        type:'get',
+        method:'get',
         response:config=>{
             const {authorization}=config.headers;
             const id=config.query.id;
@@ -75,7 +75,7 @@ const accountApi=[
                 return error.noAuth;
             }else{
                 let user=getInfo(id)
-                return Object.assign(error.success,{data:user});
+                return Object.assign({},error.success,{data:user});
             }
         }
     }

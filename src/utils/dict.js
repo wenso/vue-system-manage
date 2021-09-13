@@ -31,12 +31,14 @@ export function getAccountStatus(val){
  * @returns {string}
  */
 export function getRoleName(val){
-    if(val.length>0){
-        let roleName=[];
-        val.forEach((role)=>{
-            roleName.push(ROLES[role]);
-        })
-        return roleName.join(",");
+    if(!isEmpty(val)){
+        if(val.length>0){
+            let roleName=[];
+            val.forEach((role)=>{
+                roleName.push(ROLES[role]);
+            })
+            return roleName.join(",");
+        }
     }
     return "";
 }
@@ -50,5 +52,5 @@ export function getSex(val){
 }
 
 function isEmpty(val){
-    return val===null||val==="undefined"
+    return val===null||val===undefined
 }

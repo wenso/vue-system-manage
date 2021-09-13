@@ -5,8 +5,9 @@ html,body{*position:static}
 html{font-family: sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
 address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:400}
 input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit}
-input,button{overflow: visible;vertical-align:middle;outline:none}
-body,th,td,button,input,select,textarea{font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Helvetica,tahoma,arial,Verdana,sans-serif,"WenQuanYi Micro Hei","\5B8B\4F53";font-size:12px;color: #333;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing:grayscale}
+input,button{overflow: visible;outline:none}
+body,th,td,button,input,select,textarea{font-family:"Microsoft Yahei","Hiragino Sans GB","Helvetica Neue",Helvetica,tahoma,arial,Verdana,sans-serif,"WenQuanYi Micro Hei","\5B8B\4F53";
+    font-size:12px;color: #333;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing:grayscale}
 body{line-height:1.6}
 h1,h2,h3,h4,h5,h6{font-size:100%}
 a,area{outline:none;blr:expression(this.onFocus=this.blur())}
@@ -35,11 +36,7 @@ fieldset {border-width:0;padding: 0.35em 0.625em 0.75em;margin: 0 2px;border: 1p
 input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button {height: auto}
 input[type="search"] {-webkit-appearance: textfield; /* 1 */-moz-box-sizing: content-box;-webkit-box-sizing: content-box; /* 2 */box-sizing: content-box}
 input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration {-webkit-appearance: none}
-/*
-Name:			style_clearfix
-Example:		class="clearfix|cl"
-Explain:		Clearfix（简写cl）避免因子元素浮动而导致的父元素高度缺失能问题
-*/
+
 .cl:after,.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
 .cl,.clearfix{zoom:1}
 ol, ul {
@@ -53,10 +50,7 @@ q:before, q:after {
     content: '';
     content: none;
 }
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
+
 em{font-style:normal}
 small{font-size:12px}
 a{text-decoration:none}
@@ -80,7 +74,6 @@ button,label{cursor:pointer}
 .clear{clear:both;height:0;line-height:0;font-size:0;visibility:hidden;overflow:hidden}
 .wordwrap{word-break:break-all;word-wrap:break-word}
 pre.wordwrap{white-space:pre-wrap}
-body{text-align:center;background:#fff}
 body,form{position:relative;z-index:0}
 td{text-align:left}
 img{border:0}

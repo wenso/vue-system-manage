@@ -10,12 +10,13 @@
     <div class="table-btns">
       <el-button type="primary" @click="addAccount">添加用户</el-button>
       <el-button type="primary" @click="exportData">导出数据</el-button>
+      <perm-button type="primary" perm-id="system:account:add">上传图片</perm-button>
     </div>
 
     <!--用户列表-->
     <DataTable @refresh="refreshList"
                @edit="editRow"
-               @info="infoRow"
+               @detail="detailRow"
                :data="this.tableData" />
     <!--分页-->
     <NeuPager @size-change="handleSizeChange"
@@ -25,6 +26,12 @@
               :total="this.total"
               :page-sizes="[2,10]"
               :page-size="this.limit" />
+    <!--添加弹窗-->
+    <AddDialog title="添加账号" :visible.sync="showAddDialog" @close="closeDialog"></AddDialog>
+    <!--编辑弹窗-->
+    <EditDialog title="编辑账号" :visible.sync="showEditDialog" :user="this.currObj"  @close="closeDialog"></EditDialog>
+    <!--详情弹窗-->
+    <DetailDialog title="账号详情" :visible.sync="showDetailDialog" :user="this.currObj"  @close="closeDialog"></DetailDialog>
   </div>
   <!--子路由-->
   <router-view v-else />
@@ -39,10 +46,14 @@ import SearchBox from "./components/SearchBox.vue";
 import {toDateTime} from "@/utils/obj";
 import DataTable from "./components/DataTable";
 import {getArrObj} from "../../utils/obj";
+import PermButton from "../../components/permission/PermButton";
+import AddDialog from "./components/dialogs/AddDialog";
+import EditDialog from "./components/dialogs/editDialog";
+import DetailDialog from "./components/dialogs/DetailDialog";
 
 export default {
   name: "AccountManage",
-  components: {DataTable, SearchBox, TableBox, NeuPager},
+  components: {DetailDialog, EditDialog, AddDialog, PermButton, DataTable, SearchBox, TableBox, NeuPager},
   mixins:[ChildMixin],
   created() {
     this.searchList();
@@ -52,6 +63,12 @@ export default {
       //是否显示loading
       isLoading:false,
       isChild:true,
+      //编辑弹窗
+      showEditDialog:false,
+      //添加弹窗
+      showAddDialog:false,
+      //详细弹窗
+      showDetailDialog:false,
       //搜索框参数集
       condition:{
         //用户名
@@ -70,8 +87,18 @@ export default {
       //数据总量
       total:0,
       //表格数据
-      tableData:[]
+      tableData:[],
+      //当前编辑或详情用户对象
+      currObj:null
     };
+  },
+  watch:{
+    showEditDialog(newVal,oldVal){
+      if(newVal===false){
+        this.currObj=null;
+      }
+    },
+
   },
   methods:{
     /**
@@ -108,19 +135,24 @@ export default {
      * 编辑列表数据
      */
     editRow(data){
-      //弹出编辑 dialog
+      //编辑用户弹窗显示
+      this.currObj=data;
+      this.showEditDialog=true;
     },
     /**
      * 详情数据
      */
-    infoRow(data){
-      //弹出编辑 dialog
+    detailRow(data){
+      //用户详情弹窗显示
+      this.currObj=data;
+      this.showDetailDialog=true;
     },
     /**
      * 添加用户数据
      */
     addAccount(){
-      //添加用户
+      //添加用户弹窗显示
+      this.showAddDialog=true
     },
     /**
      * 导出符合条件的条件数据
@@ -160,6 +192,12 @@ export default {
       param.limit=this.limit;
       param.page=this.page;
       return param;
+    },
+    closeDialog(){
+      this.showEditDialog=false;
+      this.showAddDialog=false;
+      this.showDetailDialog=false;
+      this.currObj=null;
     }
   }
 }

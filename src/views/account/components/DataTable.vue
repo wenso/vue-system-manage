@@ -40,17 +40,17 @@
         class="table_controller">
       <template #default="scope">
         <el-button
-            @click.prevent="deleteRow(scope.$index, tableData)"
+            @click.prevent="deleteRow(scope.$index, scope.row)"
             type="text">
           删除
         </el-button>
         <el-button
-            @click.prevent="editRow(scope.$index, tableData)"
+            @click.prevent="editRow(scope.$index, scope.row)"
             type="text">
           编辑
         </el-button>
         <el-button
-            @click.prevent="infoRow(scope.$index, tableData)"
+            @click.prevent="detailRow(scope.$index, scope.row)"
             type="text">
           详情
         </el-button>
@@ -62,6 +62,7 @@
 <script>
 import {deleteAccount,editAccount,accountDetail} from "@apis/modules/account"
 import {getRoleName,getSex,getAccountStatus} from "../../../utils/dict";
+import {ElMessage} from "element-plus";
 export default {
   name: "DataTable",
   data(){
@@ -79,7 +80,7 @@ export default {
       return this.list
     }
   },
-  emits: ['refresh',"edit","info"],
+  emits: ['refresh',"edit","detail"],
   methods:{
     /**
      * 删除指定数据
@@ -87,11 +88,18 @@ export default {
      * @param data
      */
     deleteRow(index,data){
-      this.isLoading=true;
-      //执行访问服务端搜索数据列表接口
-      deleteAccount(data.id).then(response =>{
-        this.$emit("refresh");
-        this.isLoading=false;
+      this.$confirm('确定要删除该账户吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(() => {
+        this.isLoading=true;
+        //执行访问服务端搜索数据列表接口
+        deleteAccount(data.id).then(response =>{
+          this.$emit("refresh");
+          this.isLoading=false;
+          ElMessage.success(response.desc);
+        })
       })
     },
     /**
@@ -99,11 +107,8 @@ export default {
      * @param index 数据索引
      * @param data
      */
-    infoRow(index,data){
-      accountDetail(data.id).then(response =>{
-        this.$emit("info",response.data);
-        this.isLoading=false;
-      })
+    detailRow(index,data){
+      this.$emit("detail",data);
     },
     /**
      * 编辑指定数据
@@ -111,10 +116,7 @@ export default {
      * @param data
      */
     editRow(index,data){
-      accountDetail(data.id).then(response =>{
-        this.$emit("edit",response.data);
-        this.isLoading=false;
-      })
+      this.$emit("edit",data);
     },
     /**
      * 格式化状态 当使用prop赋值时，入参为(row，column),使用row[column.property]取值
