@@ -1,15 +1,5 @@
-/**
- * 对象是否为空
- * @param obj
- * @returns {boolean}
- */
-export const isEmpty=(obj) => {
-    if(typeof obj == "undefined" || obj == null || obj == ""){
-        return true;
-    }else{
-        return false;
-    }
-}
+import {isEmpty} from "../utils/obj";
+
 /**
  * 时间在指定范围内
  * @param current 数据时间值

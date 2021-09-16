@@ -122,3 +122,8 @@ img{border:0}
 .rc-gray{}
 .rc-yellow{}
 .rc-red{}
+
+/*form*/
+.form-input{ width: 240px;}
+.form-label{ width: 180px;}
+.form-textarea{ width: 500px;}

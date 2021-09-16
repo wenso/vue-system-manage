@@ -19,6 +19,19 @@ export const toDateTime=(str)=>{
     return null;
 }
 /**
+ *
+ * @param start
+ * @param end
+ * @returns {[undefined, undefined]|*[]}
+ */
+export const toRangDate=(start,end)=>{
+    if(isEmpty(start)&&isEmpty(end)){
+        return [];
+    }else{
+        return [start,end];
+    }
+}
+/**
  * 获取数组中元素对象，防止越界异常
  * @param arr 数组
  * @param index 索引
@@ -35,4 +48,17 @@ export const getArrObj=(arr,index)=>{
     }
     //空数据返回null
     return null;
+}
+
+/**
+ * 对象是否为空
+ * @param obj
+ * @returns {boolean}
+ */
+export const isEmpty=(obj) => {
+    if(typeof obj === "undefined" || obj === null || obj === ""){
+        return true;
+    }else{
+        return false;
+    }
 }

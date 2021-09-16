@@ -1,3 +1,5 @@
+import {isEmpty} from "./obj";
+
 const ACCOUNT_STATUS={
     active:"启用",
     lock:"锁定",
@@ -51,6 +53,3 @@ export function getSex(val){
     return !isEmpty(val)?SEX[val]:""
 }
 
-function isEmpty(val){
-    return val===null||val===undefined
-}
