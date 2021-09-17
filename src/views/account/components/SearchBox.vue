@@ -4,7 +4,7 @@
       <el-form :inline="true" class="search-form">
         <el-form-item
           label="用户名">
-          <el-input v-model="this.conditionData.account"
+          <el-input v-model="this.condition.account"
                     placeholder="账号"
                     maxlength="16"
                     class="search-input"
@@ -12,7 +12,7 @@
         </el-form-item>
         <el-form-item
             label="手机">
-          <el-input v-model="this.conditionData.phone"
+          <el-input v-model="this.condition.phone"
                     placeholder="手机号码"
                     maxlength="11"
                     class="search-input"
@@ -20,7 +20,7 @@
         </el-form-item>
         <el-form-item
             label="状态">
-          <el-select v-model="this.conditionData.status" clearable placeholder="请选择" class="search-select">
+          <el-select v-model="this.condition.status" clearable placeholder="请选择" class="search-select">
             <el-option
                 v-for="item in status"
                 :key="item.value"
@@ -32,7 +32,7 @@
         <el-form-item
             label="创建时间">
           <el-date-picker
-              v-model="this.condition.createTime"
+              v-model="this.condition.createdTime"
               type="daterange"
               range-separator="-"
               start-placeholder="开始日期"
@@ -57,12 +57,23 @@
   </div>
 </template>
 <script>
+import {toDateTime,getArrObj} from "@utils/obj";
+
 export default {
   name: "SearchBox",
   data(){
     return{
-      //账号数据
-      conditionData:this.condition,
+      //搜索框参数集
+      condition:{
+        //用户名
+        account:'',
+        //状态
+        status:'',
+        //电话号码
+        phone:'',
+        //创建时间
+        createdTime:[]
+      },
       //状态数据
       status:[{
           value: 'active',
@@ -76,28 +87,39 @@ export default {
       }]
     }
   },
-  props:{
-    //账号
-    //{account,status,startTime,endTime}
-    condition:{
-      type:Object,
-      default: () => {}
-    }
-  },
   emits: ['search','reset'],
   methods:{
     /**
      * 点击搜索按钮
      */
     handleSearch(){
-      this.$emit('search',this.conditionData);
+      this.$emit('search',this.getBuildParam(this.condition));
     },
     /**
      * 点击重置按钮
      */
     handleReset(){
-        this.conditionData=this.getDefaultParam();
-        this.$emit('reset',this.conditionData);
+      this.condition=this.getDefaultParam();
+      this.$emit('reset',this.condition);
+    },
+    /**
+     * 构建参数
+     */
+    getBuildParam(condition){
+      return {
+        //用户名
+        account:condition.account,
+        //状态
+        status:condition.status,
+        //电话号码
+        phone:condition.phone,
+        //创建时间
+        createdTime:condition.createdTime,
+        //起始时间
+        startTime:toDateTime(getArrObj(condition.createdTime,0)),
+        //结束时间
+        endTime:toDateTime(getArrObj(condition.createdTime,1))
+      }
     },
     /**
      * 获取默认搜索参数
@@ -110,12 +132,15 @@ export default {
         status:'',
         //电话号码
         phone:'',
-        //创建时间
-        createTime:[]
+        //开始时间
+        createdTime:[],
+        //起始时间
+        startTime:null,
+        //结束时间
+        endTime:null
       }
     }
   }
-
 }
 </script>
 

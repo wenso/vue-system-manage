@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="dialogVisible"
+  <el-dialog v-model="this.dialogVisible"
              :title="this.title"
               @close="handleClose">
     <template #title>
@@ -8,14 +8,14 @@
       </div>
     </template>
     <el-form ref="EditForm"
-             :model="userData"
-             :rules="userRules"
+             :model="this.userData"
+             :rules="this.userRules"
              label-width="100px">
-      <el-form-item label="账号" prop="account">
+      <el-form-item label="账号" prop="account" >
         <el-input v-model="userData.account" disabled class="form-input"></el-input>
       </el-form-item>
       <el-form-item label="真实姓名" prop="realName">
-        <el-input v-model="userData.realName"></el-input>
+        <el-input v-model="userData.realName" class="form-input"></el-input>
       </el-form-item>
       <el-form-item label="性别" prop="sex">
         <el-select v-model="userData.sex" clearable placeholder="请选择">
@@ -36,7 +36,7 @@
         ></el-input-number>
       </el-form-item>
       <el-form-item label="手机" prop="phone">
-        <el-input v-model="userData.phone"></el-input>
+        <el-input v-model="userData.phone"  class="form-input"></el-input>
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-select v-model="userData.status" clearable placeholder="请选择" class="search-select">
@@ -53,6 +53,7 @@
                   type="textarea"
                   placeholder="请输入内容"
                   maxlength="240"
+                  class="form-textarea"
                   show-word-limit>
         </el-input>
       </el-form-item>
@@ -60,7 +61,7 @@
 
     <template #footer>
       <div class="dialog-footer">
-        <el-button type="danger" @click="handleClose">取消</el-button>
+        <el-button type="danger" @click="this.handleClose">取消</el-button>
         <el-button type="primary" @click="this.handleConfirm">确认</el-button>
       </div>
     </template>
@@ -184,41 +185,41 @@ export default {
      */
     buildRules(){
       return {
-        account:[{
-          validator:(rule, value, callback)=> {
-            if (/^[a-zA-Z0-9\u4e00-\u9fa5]+$/.test(value) === false) {
-              callback(new Error("请填写汉字、大小写字母或数字"));
-            } else {
-              callback();
-            }
-          },
-          trigger: 'blur'
-        },{
-          required: true,
-          message: "请选择性别",
-          trigger: 'blur'
-        }],
-        sex: [{
-          required: true,
-          message: "请选择性别",
-          trigger: 'blur'
-        }],
-        age: [{
-          required: true,
-          message: "请填写年龄",
-          trigger: 'blur'
-        }],
-        status: [{
-          message: "请选择状态",
-          trigger: 'blur'
-        }],
+        sex: [
+          {
+            required: true,
+            message: "请选择性别",
+            trigger: 'blur'
+          }
+        ],
+        age: [
+          {
+            required: true,
+            message: "请填写年龄",
+            trigger: 'blur'
+          }
+        ],
+        phone: [
+          {
+            required: true,
+            message: "请填写手机号码",
+            trigger: 'blur'
+          }
+        ],
+        status: [
+          {
+            required: true,
+            message: "请选择状态",
+            trigger: 'blur'
+          }
+        ],
         remarks: [
-          //{ required: true, message: '请输入备注行', trigger: 'blur' },
           {
             max: 240,
             message: '输入不能超过240个字符',
             trigger: 'blur'
-          }]
+          }
+        ]
       }
     }
   }
@@ -226,7 +227,7 @@ export default {
 </script>
 
 <style scoped>
-.form-input{ width: 180px;}
+
 .dialog-header{ height: 30px; line-height: 30px;}
 .dialog-footer{}
 .dialog-header .title{ float:left; font-size: 1.4em; padding-left: 10px;}

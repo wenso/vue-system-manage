@@ -1,4 +1,6 @@
 <template>
+
+
   <el-table :data="tableData" class="data_table">
     <el-table-column
         label="账号"
@@ -57,31 +59,105 @@
       </template>
     </el-table-column>
   </el-table>
+
+  <!--分页-->
+  <NeuPager @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            class="pagination"
+            :current-page.sync="this.page"
+            :total="this.total"
+            :page-sizes="[2,10]"
+            :page-size="this.limit" />
 </template>
 
 <script>
-import {deleteAccount,editAccount,accountDetail} from "@apis/modules/account"
-import {getRoleName,getSex,getAccountStatus} from "../../../utils/dict";
+import {deleteAccount,searchAccounts} from "@apis/modules/account";
+import NeuPager from "@comps/pagination/NeuPager";
+import { isEmpty} from "@utils/obj";
+import {getRoleName,getSex,getAccountStatus} from "@utils/dict";
 import {ElMessage} from "element-plus";
 export default {
   name: "DataTable",
+  components: {NeuPager},
   data(){
-    return {}
-  },
-  props:{
-    //表格绑定的数据
-    list:{
-      type:Array,
-      default: () => []
-    }
-  },
-  computed:{
-    tableData(){
-      return this.list
+    return {
+      //搜索框参数集
+      condition:{
+        //用户名
+        account:'',
+        //状态
+        status:'',
+        //电话号码
+        phone:'',
+        //创建时间
+        startTime:null,
+        //结束时间
+        endTime:null
+      },
+      limit:2,
+      page:1,
+      total:0,
+      tableData:[]
     }
   },
   emits: ['refresh',"edit","detail"],
   methods:{
+    /**
+     * 搜索列表数据
+     * @param val 子组件传递的值，condition对象
+     */
+    search(val){
+      this.isLoading=true;
+      //转义为符合接口协议的参数名
+      let param=this.buildParam(val);
+      //执行访问服务端搜索数据列表接口
+      searchAccounts(param).then(response =>{
+        this.total=response.data.total;
+        this.tableData=response.data.list;
+        this.isLoading=false;
+      })
+    },
+    refresh(){
+
+    },
+    /**
+     * 单页数据量pageSize发生变化
+     */
+    handleSizeChange(val){
+      this.limit=val.limit;
+      this.page=val.page;
+      this.search(this.condition);
+    },
+    /**
+     * 当前页码发生变化
+     */
+    handleCurrentChange(val){
+      this.limit=val.limit;
+      this.page=val.page;
+      this.search(this.condition);
+    },
+    /**
+     * 构造获取列表数据参数
+     * @param data
+     * @returns {*}
+     */
+    buildParam(val){
+      if(!isEmpty(val)){
+        this.condition=val;
+      }
+      //也合并生成一个新的对象
+      let param={};
+      param.account=this.condition.account;
+      param.phone=this.condition.phone;
+      param.status=this.condition.status;
+      param.startTime=this.condition.startTime;
+      param.endTime=this.condition.endTime;
+      param.limit=this.limit;
+      param.page=this.page;
+      return param;
+    },
+
+
     /**
      * 删除指定数据
      * @param index 数据索引
@@ -94,7 +170,7 @@ export default {
         type: 'warning',
       }).then(() => {
         this.isLoading=true;
-        //执行访问服务端搜索数据列表接口
+        //执行访问服务端删除数据列表接口
         deleteAccount(data.id).then(response =>{
           this.$emit("refresh");
           this.isLoading=false;
@@ -125,30 +201,30 @@ export default {
       let tag="";
       switch(val){
         case "active":
-          tag='<span class="tag fc-green">'+getAccountStatus(val)+'</span>'
+          tag='<span class="tag fc-green">'+getAccountStatus(val)+'</span>';
           break;
         case "lock":
-          tag='<span class="tag fc-red">'+getAccountStatus(val)+'</span>'
+          tag='<span class="tag fc-red">'+getAccountStatus(val)+'</span>';
           break;
         case "disable":
-          tag='<span class="tag fc-gray">'+getAccountStatus(val)+'</span>'
+          tag='<span class="tag fc-gray">'+getAccountStatus(val)+'</span>';
           break;
         default:
           break;
       }
-      return tag
+      return tag;
     },
     /**
      * 格式化权限
      */
     formatterRoleName(val){
-      return getRoleName(val)
+      return getRoleName(val);
     },
     /**
      * 格式化性别
      */
     formatterSex(val){
-      return getSex(val)
+      return getSex(val);
     }
   }
 }

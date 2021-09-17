@@ -3,8 +3,7 @@
   <div v-if="isChild" v-loading="isLoading">
     <!--搜索-->
     <SearchBox @search="searchList"
-               @reset="resetList"
-               :condition="this.condition" />
+               @reset="resetList" />
     <!--按钮-->
 
     <div class="table-btns">
@@ -17,15 +16,8 @@
     <DataTable @refresh="refreshList"
                @edit="editRow"
                @detail="detailRow"
-               :data="this.tableData" />
-    <!--分页-->
-    <NeuPager @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              class="pagination"
-              :current-page.sync="this.page"
-              :total="this.total"
-              :page-sizes="[2,10]"
-              :page-size="this.limit" />
+               ref="DataTable" />
+
     <!--添加弹窗-->
     <AddDialog title="添加账号" :visible.sync="showAddDialog" @close="closeDialog"></AddDialog>
     <!--编辑弹窗-->
@@ -38,24 +30,20 @@
 </template>
 <script>
 
+
 import ChildMixin from "@comps/mixins/ChildMixin";
-import {searchAccounts} from "@apis/modules/account";
-import NeuPager from "@comps/pagination/NeuPager.vue";
-import TableBox from "@comps/templates/TableBox.vue";
-import SearchBox from "./components/SearchBox.vue";
-import {toDateTime} from "@/utils/obj";
+import PermButton from "@comps/permission/PermButton";
 import DataTable from "./components/DataTable";
-import {getArrObj} from "../../utils/obj";
-import PermButton from "../../components/permission/PermButton";
+import SearchBox from "./components/SearchBox.vue";
 import AddDialog from "./components/dialogs/AddDialog";
-import EditDialog from "./components/dialogs/editDialog";
+import EditDialog from "./components/dialogs/EditDialog";
 import DetailDialog from "./components/dialogs/DetailDialog";
 
 export default {
   name: "AccountManage",
-  components: {DetailDialog, EditDialog, AddDialog, PermButton, DataTable, SearchBox, TableBox, NeuPager},
+  components: {DetailDialog, EditDialog, AddDialog, PermButton, DataTable, SearchBox},
   mixins:[ChildMixin],
-  created() {
+  mounted() {
     this.searchList();
   },
   data() {
@@ -69,67 +57,29 @@ export default {
       showAddDialog:false,
       //详细弹窗
       showDetailDialog:false,
-      //搜索框参数集
-      condition:{
-        //用户名
-        account:'',
-        //状态
-        status:'',
-        //电话号码
-        phone:'',
-        //创建时间
-        createTime:[]
-      },
-      //页面数据数量
-      limit:2,
-      //页码
-      page:1,
-      //数据总量
-      total:0,
-      //表格数据
-      tableData:[],
       //当前编辑或详情用户对象
       currObj:null
-    };
-  },
-  watch:{
-    showEditDialog(newVal,oldVal){
-      if(newVal===false){
-        this.currObj=null;
-      }
-    },
-
+    }
   },
   methods:{
-    /**
-     * 搜索列表数据
-     * @param val 子组件传递的值，condition对象
-     */
-    searchList(val){
-      this.isLoading=true;
-      //转义为符合接口协议的参数名
-      let param=this.buildParam(val);
-      //执行访问服务端搜索数据列表接口
-      searchAccounts(param).then(response =>{
-        this.page=response.data.page;
-        this.total=response.data.total;
-        this.tableData=response.data.list;
-        this.isLoading=false;
-      })
-    },
+
     /**
      * 重置搜索条件
      */
     resetList(val){
-      this.condition=val;
-      this.page=1;
-      this.searchList();
+      this.$refs.DataTable.search(val);
     },
     /**
      * 刷新列表数据
      */
     refreshList(){
-      this.searchList();
+      this.$refs.DataTable.refresh();
+    },
+    /**
+     * 搜索列表数据
+     */
+    searchList(val){
+      this.$refs.DataTable.search(val);
     },
     /**
      * 编辑列表数据
@@ -161,38 +111,8 @@ export default {
       //导出数据
     },
     /**
-     * 单页数据量pageSize发生变化
+     * 关闭弹框
      */
-    handleSizeChange(val){
-      this.limit=val.limit;
-      this.page=val.page;
-      this.searchList();
-    },
-     /**
-     * 当前页码发生变化
-     */
-    handleCurrentChange(val){
-      this.limit=val.limit;
-      this.page=val.page;
-      this.searchList();
-    },
-    /**
-     * 构造获取列表数据参数
-     * @param data
-     * @returns {*}
-     */
-    buildParam(data){
-      //也合并生成一个新的对象
-      let param={};
-      param.startTime=toDateTime(getArrObj(this.condition.createTime,0));
-      param.endTime=toDateTime(getArrObj(this.condition.createTime,1));
-      param.account=this.condition.account;
-      param.phone=this.condition.phone;
-      param.status=this.condition.status;
-      param.limit=this.limit;
-      param.page=this.page;
-      return param;
-    },
     closeDialog(){
       this.showEditDialog=false;
       this.showAddDialog=false;

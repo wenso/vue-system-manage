@@ -7,8 +7,8 @@
         <span class="title">{{this.title}}</span>
       </div>
     </template>
-    <el-descriptions :column="1" border >
-      <el-descriptions-item>
+    <el-descriptions :column="1" border label-class-name="desc-label" class-name="desc-content">
+      <el-descriptions-item >
         <template #label>
           账号
         </template>
@@ -185,6 +185,8 @@ export default {
 </script>
 
 <style scoped>
+.desc-label{ width: 100px;}
+.desc-content{}
 .dialog-header{ height: 30px; line-height: 30px;}
 .dialog-footer{}
 .dialog-header .title{ float:left; font-size: 1.4em; padding-left: 10px;}
